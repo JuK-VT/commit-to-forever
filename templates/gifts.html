@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Lista de regalos{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="page-ornament">✦</div>
+    <h1>Lista de regalos</h1>
+    <p>Vuestra presencia es el mejor regalo. Pero si queréis contribuir, aquí encontraréis algunas ideas cercanas a nuestros corazones.</p>
+  </div>
+</section>
+
+<section class="gifts-section">
+  <div class="gifts-inner">
+    <div class="gifts-grid">
+      {% for gift in gifts %}
+      <div class="gift-card{% if gift.claimed %} gift-claimed{% endif %}">
+        <div class="gift-category">{{ gift.category }}</div>
+        <div class="gift-body">
+          <h3 class="gift-name">{{ gift.name }}</h3>
+          <p class="gift-desc">{{ gift.description }}</p>
+        </div>
+        <div class="gift-footer">
+          {% if gift.claimed %}
+            <span class="gift-badge">Ya reservado</span>
+          {% else %}
+            <button class="btn-gift">Seleccionar regalo</button>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
