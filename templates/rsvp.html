@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}Confirmación de asistencia{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="page-ornament">✦</div>
+    <h1>Confirmación</h1>
+    <p>Por favor, confírmanos tu asistencia antes del {{ wedding.rsvp_deadline }}.</p>
+  </div>
+</section>
+
+<section class="rsvp-section">
+  <div class="rsvp-inner">
+
+    {% if confirmed %}
+      <div class="rsvp-confirmed">
+        <div class="confirmed-icon">✦</div>
+        {% if attending %}
+          <h2>¡Nos vemos en la boda!</h2>
+          <p>Gracias por confirmar, <em>{{ session.guest_name or 'querido invitado' }}</em>. Estamos deseando celebrar este día tan especial contigo.</p>
+        {% else %}
+          <h2>¡Te echaremos de menos!</h2>
+          <p>Gracias por avisarnos, <em>{{ session.guest_name or 'querido invitado' }}</em>. Estarás en nuestros corazones el día de la boda.</p>
+        {% endif %}
+        <a href="{{ url_for('main.index') }}" class="btn btn-primary" style="margin-top: 2.5rem">Volver al inicio</a>
+      </div>
+
+    {% else %}
+
+      {% if existing %}
+      <div class="rsvp-notice">
+        Tienes una confirmación previa: actualmente has indicado que
+        <strong>{% if existing.attending %}sí asistirás{% else %}no podrás asistir{% endif %}</strong>.
+        Puedes actualizar tu respuesta a continuación.
+      </div>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('rsvp.rsvp') }}" class="rsvp-form" id="rsvpForm">
+        <div class="form-group">
+          <label>¿Asistirás a la boda?</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="attending" value="yes"
+                     {% if existing and existing.attending %}checked{% endif %} required>
+              <span class="radio-label">¡Sí, allí estaré!</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="attending" value="no"
+                     {% if existing and not existing.attending %}checked{% endif %}>
+              <span class="radio-label">Lo siento, no podré ir</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" id="attendingFields"
+             style="display: {% if existing and existing.attending %}flex{% else %}none{% endif %};">
+          <label for="guest_count">
+            Número de asistentes (incluyéndote a ti,
+            máx.&nbsp;{{ max_guests }})
+          </label>
+          <input type="number" id="guest_count" name="guest_count"
+                 min="1" max="{{ max_guests }}"
+                 value="{{ existing.guest_count if existing else 1 }}">
+        </div>
+
+        <div class="form-group" id="dietaryField"
+             style="display: {% if existing and existing.attending %}flex{% else %}none{% endif %};">
+          <label for="dietary">Restricciones alimentarias o alergias</label>
+          <input type="text" id="dietary" name="dietary"
+                 placeholder="p. ej. vegetariano, sin gluten, alérgico a frutos secos…"
+                 value="{{ existing.dietary if existing else '' }}">
+        </div>
+
+        <div class="form-group" id="songField"
+             style="display: {% if existing and existing.attending %}flex{% else %}none{% endif %};">
+          <label for="song_request">¿Qué canción no puede faltar? <span class="optional">(opcional)</span></label>
+          <input type="text" id="song_request" name="song_request"
+                 placeholder="Artista o título…"
+                 value="{{ existing.song_request if existing else '' }}">
+        </div>
+
+        <div class="form-group">
+          <label for="message">Un mensaje para los novios <span class="optional">(opcional)</span></label>
+          <textarea id="message" name="message" rows="4"
+                    placeholder="Comparte tus deseos con nosotros…">{{ existing.message if existing else '' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">
+          {% if existing %}Actualizar confirmación{% else %}Confirmar asistencia{% endif %}
+        </button>
+      </form>
+
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

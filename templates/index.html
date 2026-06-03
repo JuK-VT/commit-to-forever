@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+{% block title %}Bienvenidos{% endblock %}
+{% block body_class %}{% endblock %}
+
+{% block content %}
+
+{# ── Hero ──────────────────────────────────────────────────────────────────── #}
+<section class="hero">
+
+  <div class="hero-photo hero-photo-left" aria-hidden="true">
+    <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="">
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-pre">Nos casamos</p>
+    <h1 class="hero-names">
+      <span class="bride-name">{{ wedding.bride.name }}</span>
+      <span class="names-amp">&amp;</span>
+      <span class="groom-name">{{ wedding.groom.name }}</span>
+    </h1>
+    <p class="hero-roles">
+      <span class="bride-role">{{ wedding.bride.title }}</span>
+      <span class="role-sep">✦</span>
+      <span class="groom-role">{{ wedding.groom.title }}</span>
+    </p>
+    <div class="hero-divider">
+      <span></span>
+      <svg width="18" height="16" viewBox="0 0 24 22" fill="currentColor">
+        <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+      </svg>
+      <span></span>
+    </div>
+    <p class="hero-date">{{ wedding.date }}</p>
+    <p class="hero-location">{{ wedding.ceremony.venue }}, Madrid</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('rsvp.rsvp') }}" class="btn btn-primary">Confirmar asistencia</a>
+      <a href="{{ url_for('gifts.gifts') }}" class="btn btn-secondary">Ver lista de regalos</a>
+    </div>
+  </div>
+
+  <div class="hero-photo hero-photo-right" aria-hidden="true">
+    <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="">
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span></span>
+  </div>
+</section>
+
+{# ── Nuestra historia ──────────────────────────────────────────────────────── #}
+<section class="story-section">
+  <div class="story-inner">
+    <div class="story-media">
+      <div class="story-img-main">
+        <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Sofia y Marcos">
+      </div>
+      <div class="story-img-accent">
+        <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Sofia y Marcos">
+      </div>
+    </div>
+    <div class="story-text">
+      <p class="section-label">Nuestra historia</p>
+      <h2>Dos caminos,<br>una misma dirección</h2>
+      <p>Nos conocimos en el otoño de 2019 y desde entonces no hemos parado de recorrer el mundo juntos, de reírnos sin motivo y de construir, paso a paso, el hogar que siempre soñamos.</p>
+      <p>Ahora queremos celebrar el siguiente capítulo rodeados de las personas que más queremos. Queremos que este día sea tan especial para vosotros como lo es para nosotros.</p>
+    </div>
+  </div>
+</section>
+
+{# ── Ceremonia y Celebración ───────────────────────────────────────────────── #}
+<section class="details">
+  <div class="details-inner">
+    <h2 class="section-title">Los detalles</h2>
+    <div class="details-grid">
+      <div class="detail-card">
+        <div class="detail-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3>Ceremonia</h3>
+        <p class="detail-time">{{ wedding.ceremony.time }}</p>
+        <p class="detail-venue">{{ wedding.ceremony.venue }}</p>
+        <p class="detail-address">{{ wedding.ceremony.address }}</p>
+      </div>
+      <div class="detail-card">
+        <div class="detail-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Celebración</h3>
+        <p class="detail-time">{{ wedding.reception.time }}</p>
+        <p class="detail-venue">{{ wedding.reception.venue }}</p>
+        <p class="detail-address">{{ wedding.reception.address }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── Cómo será el día ─────────────────────────────────────────────────────── #}
+{% if timeline %}
+<section class="timeline-section">
+  <div class="timeline-inner">
+    <h2 class="section-title">Cómo será el día</h2>
+    <div class="timeline">
+      {% for event in timeline %}
+      <div class="timeline-event {% if loop.index is odd %}event-left{% else %}event-right{% endif %}">
+        <div class="timeline-dot">{{ event.icon }}</div>
+        <div class="timeline-card">
+          <span class="event-time">{{ event.time }}</span>
+          <h3 class="event-title">{{ event.title }}</h3>
+          {% if event.description %}<p class="event-desc">{{ event.description }}</p>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ── Código de vestimenta ─────────────────────────────────────────────────── #}
+<section class="dresscode-section">
+  <div class="dresscode-inner">
+    <p class="section-label">Código de vestimenta</p>
+    <h2 class="dresscode-label">{{ wedding.dress_code.label }}</h2>
+    <div class="dresscode-divider"></div>
+    <p class="dresscode-desc">{{ wedding.dress_code.description }}</p>
+
+    <div class="dresscode-palette">
+      {% for swatch in wedding.dress_code.palette %}
+      <div class="swatch">
+        <span class="swatch-dot" style="background:{{ swatch.hex }}"></span>
+        <span class="swatch-name">{{ swatch.name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <p class="dresscode-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:-2px;margin-right:6px">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      {{ wedding.dress_code.note }}
+    </p>
+  </div>
+</section>
+
+{# ── Cómo llegar ───────────────────────────────────────────────────────────── #}
+<section class="transport-section">
+  <div class="transport-inner">
+    <h2 class="section-title">Cómo llegar</h2>
+    <div class="transport-grid">
+
+      <div class="transport-card">
+        <div class="transport-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <rect x="3" y="7" width="18" height="10" rx="2"/>
+            <path d="M8 17v2M16 17v2"/>
+            <circle cx="8.5" cy="12" r="1" fill="currentColor" stroke="none"/>
+            <circle cx="15.5" cy="12" r="1" fill="currentColor" stroke="none"/>
+            <path d="M3 10h18"/>
+          </svg>
+        </div>
+        <h3>Metro</h3>
+        <p>{{ wedding.transport[0].desc | safe }}</p>
+      </div>
+
+      <div class="transport-card">
+        <div class="transport-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M5 17H3a1 1 0 0 1-1-1V9a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v7a1 1 0 0 1-1 1h-2"/>
+            <circle cx="7.5" cy="17.5" r="2.5"/>
+            <circle cx="16.5" cy="17.5" r="2.5"/>
+            <path d="M10 17h4"/>
+          </svg>
+        </div>
+        <h3>En coche</h3>
+        <p>{{ wedding.transport[1].desc | safe }}</p>
+      </div>
+
+      <div class="transport-card">
+        <div class="transport-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5a2 2 0 0 0-2 2v6h3"/>
+            <circle cx="6.5" cy="16.5" r="2.5"/>
+            <circle cx="16.5" cy="16.5" r="2.5"/>
+          </svg>
+        </div>
+        <h3>Taxi / VTC</h3>
+        <p>{{ wedding.transport[2].desc | safe }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── Mapa ──────────────────────────────────────────────────────────────────── #}
+<section class="map-section">
+  <div class="map-header">
+    <p class="section-label">Ubicación</p>
+    <h2 class="section-title" style="margin-bottom:0.6rem">{{ wedding.ceremony.venue }}</h2>
+    <p class="map-address">{{ wedding.ceremony.address }}</p>
+  </div>
+  <div class="map-embed">
+    <iframe
+      src="{{ wedding.map_embed_url }}"
+      width="100%" height="100%"
+      style="border:0"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Ubicación de la ceremonia">
+    </iframe>
+  </div>
+</section>
+
+{# ── Hoteles ───────────────────────────────────────────────────────────────── #}
+<section class="hotels-section">
+  <div class="hotels-inner">
+    <h2 class="section-title">Dónde alojarse</h2>
+    <p class="section-subtitle">Hemos seleccionado algunos hoteles cercanos para que tu estancia sea cómoda.</p>
+    <div class="hotels-grid">
+      {% for hotel in wedding.hotels %}
+      <div class="hotel-card">
+        <div class="hotel-stars">
+          {% for _ in range(hotel.stars) %}★{% endfor %}
+        </div>
+        <h3>{{ hotel.name }}</h3>
+        <p class="hotel-distance">{{ hotel.distance }}</p>
+        <p class="hotel-desc">{{ hotel.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ── Muro de mensajes ─────────────────────────────────────────────────────── #}
+<section class="messages-section">
+  <div class="messages-inner">
+    <h2 class="section-title">Vuestros mensajes</h2>
+    <p class="section-subtitle">Las palabras que más nos llegan al corazón.</p>
+
+    {% if session.guest_name %}
+    <div class="message-form-wrapper">
+      <form class="message-form" id="messageForm">
+        <textarea id="messageInput" placeholder="Escribe un mensaje para los novios…" maxlength="300" rows="3"></textarea>
+        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+      </form>
+    </div>
+    {% else %}
+    <p class="messages-login-hint">
+      <a href="{{ url_for('auth.login') }}">Accede</a> para dejar tu mensaje.
+    </p>
+    {% endif %}
+
+    <div class="messages-grid" id="messagesGrid">
+      {% for msg in messages %}
+      <div class="message-card">
+        <p class="message-text">{{ msg.message }}</p>
+        <span class="message-author">— {{ msg.guest_name }}</span>
+      </div>
+      {% endfor %}
+      {% if not messages %}
+      <p class="messages-empty">Aún no hay mensajes. ¡Sed los primeros en escribir uno!</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{# ── Cuenta atrás ──────────────────────────────────────────────────────────── #}
+<section class="countdown-section">
+  <div class="countdown-inner">
+    <p class="countdown-label">Cuenta atrás para el gran día</p>
+    <div class="countdown" id="countdown">
+      <div class="count-block"><span id="cd-days">--</span><label>Días</label></div>
+      <div class="count-sep">:</div>
+      <div class="count-block"><span id="cd-hours">--</span><label>Horas</label></div>
+      <div class="count-sep">:</div>
+      <div class="count-block"><span id="cd-mins">--</span><label>Minutos</label></div>
+      <div class="count-sep">:</div>
+      <div class="count-block"><span id="cd-secs">--</span><label>Segundos</label></div>
+    </div>
+  </div>
+</section>
+
+{# ── Gracias ───────────────────────────────────────────────────────────────── #}
+<section class="thanks-section">
+  <div class="thanks-inner">
+    <div class="thanks-ornament">✦ ✦ ✦</div>
+    <h2>Gracias por acompañarnos</h2>
+    <p>Vuestra presencia es el mejor regalo que podéis hacernos. Cada uno de vosotros forma parte de nuestra historia, y queremos que forméis parte también de este día tan especial.</p>
+    <p>Con mucha ilusión os esperamos. Por favor, confirmadnos vuestra asistencia antes del <strong>{{ wedding.rsvp_deadline }}</strong>.</p>
+    <p class="thanks-signature">
+      Con todo nuestro amor,<br>
+      <em>{{ wedding.names }}</em>
+    </p>
+    <a href="{{ url_for('rsvp.rsvp') }}" class="btn btn-primary" style="margin-top:2.5rem">Confirmar asistencia</a>
+  </div>
+</section>
+
+{% endblock %}
