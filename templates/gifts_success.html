@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}¡Gracias por tu regalo!{% endblock %}
+
+{% block content %}
+<section class="rsvp-section">
+  <div class="rsvp-inner">
+    <div class="rsvp-confirmed">
+      <div class="confirmed-icon">✦</div>
+      <h2>¡Gracias por tu regalo!</h2>
+      <p>Tu contribución ha sido recibida con todo el cariño del mundo. Significa muchísimo para nosotros que quieras hacer parte de este día tan especial.</p>
+      <p style="margin-top:1rem;color:var(--brown-light);font-size:0.95rem">
+        En unos instantes recibirás la confirmación de tu pago.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem">
+        <a href="{{ url_for('gifts.gifts') }}" class="btn btn-secondary">Ver lista de regalos</a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-primary">Volver al inicio</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
