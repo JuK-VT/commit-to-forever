@@ -3,9 +3,16 @@
 
 # Firebase service account key
 serviceAccountKey.json
+*serviceAccount*.json
 
 # Developer utilities (local only)
 dev/
+
+# Claude Code memory (local assistant notes)
+memory/
+
+# IDE
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
