@@ -5,7 +5,7 @@ load_dotenv()
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+    SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', '')
     DEBUG = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
     FIREBASE_CREDENTIALS = os.environ.get('FIREBASE_CREDENTIALS')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
