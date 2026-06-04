@@ -2,7 +2,7 @@ import json
 import os
 
 import firebase_admin
-from firebase_admin import credentials, firestore, storage
+from firebase_admin import credentials, firestore
 
 _db = None
 
@@ -12,12 +12,6 @@ def get_db():
     if _db is None:
         _db = _connect()
     return _db
-
-
-def get_bucket():
-    if not firebase_admin._apps:
-        _connect()
-    return storage.bucket()
 
 
 def _connect():
@@ -36,7 +30,5 @@ def _connect():
     else:
         cred = credentials.Certificate(cred_value)
 
-    bucket_name = os.environ.get('FIREBASE_STORAGE_BUCKET', '')
-    options = {'storageBucket': bucket_name} if bucket_name else {}
-    firebase_admin.initialize_app(cred, options)
+    firebase_admin.initialize_app(cred)
     return firestore.client()
