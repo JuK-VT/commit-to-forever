@@ -4,6 +4,7 @@ from flask import Flask
 
 from config import Config
 from routes import register_blueprints
+from services.wedding_service import WeddingService
 
 
 def create_app():
@@ -11,6 +12,14 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     register_blueprints(app)
+
+    @app.context_processor
+    def inject_wedding():
+        try:
+            return {'wedding': WeddingService.get()}
+        except Exception:
+            return {'wedding': {}}
+
     return app
 
 

@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template
 
-from data.wedding import WEDDING
 from services.messages_service import MessagesService
 from services.timeline_service import TimelineService
 
@@ -15,4 +14,4 @@ def index():
     except RuntimeError:
         timeline = []
         messages = []
-    return render_template('index.html', wedding=WEDDING, timeline=timeline, messages=messages)
+    return render_template('index.html', timeline=timeline, messages=messages)
