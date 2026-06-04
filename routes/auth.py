@@ -1,6 +1,5 @@
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 
-from data.wedding import WEDDING
 from services.auth_service import AuthService
 from services.guest_service import GuestService
 
@@ -17,12 +16,12 @@ def login():
 
         if not guest_id or not password:
             flash('Por favor, selecciona tu nombre y escribe una contraseña.', 'error')
-            return render_template('login.html', wedding=WEDDING, guests=guests)
+            return render_template('login.html', guests=guests)
 
         guest = GuestService.get_by_id(guest_id)
         if not guest:
             flash('Nombre no encontrado en la lista de invitados.', 'error')
-            return render_template('login.html', wedding=WEDDING, guests=guests)
+            return render_template('login.html', guests=guests)
 
         success, reason = AuthService.register_or_login(guest['name'], password)
 
@@ -37,7 +36,7 @@ def login():
 
         flash('Contraseña incorrecta. Inténtalo de nuevo.', 'error')
 
-    return render_template('login.html', wedding=WEDDING, guests=guests)
+    return render_template('login.html', guests=guests)
 
 
 @auth_bp.route('/logout')

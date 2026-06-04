@@ -68,7 +68,9 @@
 </section>
 
 {# ── Parallax band ────────────────────────────────────────────────────────── #}
-<div class="parallax-band" aria-hidden="true">
+<div class="parallax-band"
+     {% if wedding.cover_photo %}style="background-image: url('{{ wedding.cover_photo }}')"{% endif %}
+     aria-hidden="true">
   <div class="parallax-overlay"></div>
   <p class="parallax-quote">{{ wedding.names }}</p>
 </div>

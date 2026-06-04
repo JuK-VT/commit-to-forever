@@ -1,6 +1,5 @@
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 
-from data.wedding import WEDDING
 from services.rsvp_service import RsvpService
 
 rsvp_bp = Blueprint('rsvp', __name__)
@@ -29,10 +28,10 @@ def rsvp():
             message=message,
             song_request=song_request,
         )
-        return render_template('rsvp.html', wedding=WEDDING, confirmed=True,
+        return render_template('rsvp.html', confirmed=True,
                                attending=attending, max_guests=max_guests,
                                existing=None)
 
     existing = RsvpService.get_by_guest(session['guest_name'])
-    return render_template('rsvp.html', wedding=WEDDING, confirmed=False,
+    return render_template('rsvp.html', confirmed=False,
                            max_guests=max_guests, existing=existing)

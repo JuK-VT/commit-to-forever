@@ -4,7 +4,6 @@ import stripe
 from flask import (Blueprint, current_app, flash, redirect,
                    render_template, request, session, url_for)
 
-from data.wedding import WEDDING
 from services.gift_service import GiftService
 
 logger = logging.getLogger(__name__)
@@ -24,7 +23,6 @@ def gifts():
     return render_template(
         'gifts.html',
         gifts=GiftService.get_all(),
-        wedding=WEDDING,
         cancelled=cancelled,
         stripe_pk=current_app.config['STRIPE_PUBLISHABLE_KEY'],
     )
@@ -71,7 +69,7 @@ def checkout(gift_id):
 def success():
     if not session.get('guest_name'):
         return redirect(url_for('auth.login'))
-    return render_template('gifts_success.html', wedding=WEDDING)
+    return render_template('gifts_success.html')
 
 
 @gifts_bp.route('/gifts/webhook', methods=['POST'])
