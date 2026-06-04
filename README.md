@@ -3,7 +3,7 @@
 <img src="https://img.shields.io/badge/🎋_hatsune_miku_approved-%2339C5BB?style=for-the-badge&logoColor=white" alt="Miku Approved"/>
 <img src="https://img.shields.io/badge/初音ミク-loves_this_repo-%2386CECB?style=for-the-badge&logoColor=white" alt="Miku loves this repo"/>
 
-# 💍 Boda — Wedding Web Application
+# 💍 commit-to-forever
 
 ### A full-stack, production-grade wedding management platform built with Flask, Firebase, and Stripe.
 
@@ -27,7 +27,7 @@
 
 ## Overview
 
-**Boda** is a bespoke, invitation-only wedding website designed to handle every guest-facing concern of a modern wedding — from RSVP management and personalised gift funding, to a live message wall and real-time countdown. All configuration — venues, names, dates, dress code, transport, photos — lives entirely in **Firebase Firestore**, enabling the couple to update any detail in production without a single redeploy.
+**commit-to-forever** is a bespoke, invitation-only wedding website designed to handle every guest-facing concern of a modern wedding — from RSVP management and personalised gift funding, to a live message wall and real-time countdown. All configuration — venues, names, dates, dress code, transport, photos — lives entirely in **Firebase Firestore**, enabling the couple to update any detail in production without a single redeploy.
 
 Payments are handled end-to-end through **Stripe Checkout** in MXN, with support for full gift purchases and partial crowd-funded contributions, anonymous or attributed.
 
@@ -98,8 +98,8 @@ Payments are handled end-to-end through **Stripe Checkout** in MXN, with support
 
 ```bash
 # 1. Clone and create a virtual environment
-git clone https://github.com/JuK-VT/boda.git
-cd boda
+git clone https://github.com/JuK-VT/commit-to-forever.git
+cd commit-to-forever
 python -m venv .venv
 .venv\Scripts\activate        # Windows
 # source .venv/bin/activate   # macOS / Linux
