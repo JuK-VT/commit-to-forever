@@ -8,7 +8,7 @@
 <section class="hero">
 
   <div class="hero-photo hero-photo-left" aria-hidden="true">
-    <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="">
+    <img src="{{ wedding.hero_photo_left or url_for('static', filename='img/placeholder.png') }}" alt="">
   </div>
 
   <div class="hero-content">
@@ -31,7 +31,7 @@
       <span></span>
     </div>
     <p class="hero-date">{{ wedding.date }}</p>
-    <p class="hero-location">{{ wedding.ceremony.venue }}, Madrid</p>
+    <p class="hero-location">{{ wedding.ceremony.venue }}</p>
     <div class="hero-actions">
       <a href="{{ url_for('rsvp.rsvp') }}" class="btn btn-primary">Confirmar asistencia</a>
       <a href="{{ url_for('gifts.gifts') }}" class="btn btn-secondary">Ver lista de regalos</a>
@@ -39,7 +39,7 @@
   </div>
 
   <div class="hero-photo hero-photo-right" aria-hidden="true">
-    <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="">
+    <img src="{{ wedding.hero_photo_right or url_for('static', filename='img/placeholder.png') }}" alt="">
   </div>
 
   <div class="hero-scroll-hint">
@@ -52,10 +52,10 @@
   <div class="story-inner">
     <div class="story-media">
       <div class="story-img-main">
-        <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Sofia y Marcos">
+        <img src="{{ wedding.story_photo_main or url_for('static', filename='img/placeholder.png') }}" alt="{{ wedding.names }}">
       </div>
       <div class="story-img-accent">
-        <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Sofia y Marcos">
+        <img src="{{ wedding.story_photo_accent or url_for('static', filename='img/placeholder.png') }}" alt="{{ wedding.names }}">
       </div>
     </div>
     <div class="story-text">
