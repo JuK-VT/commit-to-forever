@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block title %}Lista de regalos{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="page-ornament">✦</div>
+    <h1>Lista de regalos</h1>
+    <p>Vuestra presencia es el mejor regalo. Pero si queréis contribuir, aquí encontraréis algunas ideas cercanas a nuestros corazones.</p>
+  </div>
+</section>
+
+<section class="gifts-section">
+  <div class="gifts-inner">
+
+    {% if cancelled %}
+    <div class="gifts-notice">El pago fue cancelado. Puedes intentarlo de nuevo cuando quieras.</div>
+    {% endif %}
+
+    <div class="gifts-grid">
+      {% for gift in gifts %}
+
+      {% set remaining = gift.price - gift.get('amount_funded', 0) %}
+      {% set progress_pct = [(gift.get('amount_funded', 0) / gift.price * 100), 100] | min | int %}
+
+      <div class="gift-card{% if gift.is_funded %} gift-funded{% endif %}">
+
+        {% if gift.is_funded %}
+        <div class="gift-funded-ribbon">
+          <span>Ya financiado</span>
+        </div>
+        {% endif %}
+
+        {% if gift.image_url %}
+        <div class="gift-image">
+          <img src="{{ gift.image_url }}" alt="{{ gift.title }}">
+        </div>
+        {% else %}
+        <div class="gift-image gift-image-placeholder" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/>
+            <path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+          </svg>
+        </div>
+        {% endif %}
+
+        <div class="gift-body">
+          <span class="gift-category">{{ gift.category }}</span>
+          <h3 class="gift-title">{{ gift.title }}</h3>
+          <p class="gift-desc">{{ gift.description }}</p>
+
+          <div class="gift-price-row">
+            <span class="gift-price">${{ "%.0f"|format(gift.price) }} MXN</span>
+            {% if gift.allow_partial and not gift.is_funded %}
+            <span class="gift-partial-badge">Contribución parcial</span>
+            {% endif %}
+          </div>
+
+          {% if gift.allow_partial and not gift.is_funded %}
+          <div class="gift-progress">
+            <div class="gift-progress-bar">
+              <div class="gift-progress-fill" style="width:{{ progress_pct }}%"></div>
+            </div>
+            <span class="gift-progress-label">
+              ${{ "%.0f"|format(gift.get('amount_funded', 0)) }} de ${{ "%.0f"|format(gift.price) }} MXN
+            </span>
+          </div>
+          {% endif %}
+
+          {% if gift.contributors %}
+          <p class="gift-contributors">
+            Contribuido por:
+            {% for c in gift.contributors %}
+            <span class="contributor-name">{{ c }}</span>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          {% endif %}
+        </div>
+
+        <div class="gift-footer">
+          {% if gift.is_funded %}
+          <span class="gift-funded-label">✦ Gracias por este regalo ✦</span>
+          {% else %}
+          <button class="btn btn-primary btn-full btn-gift-open"
+                  data-gift-id="{{ gift.id }}"
+                  data-gift-partial="{{ 'true' if gift.allow_partial else 'false' }}"
+                  data-gift-remaining="{{ '%.0f'|format(remaining) }}"
+                  data-gift-price="{{ '%.0f'|format(gift.price) }}">
+            {% if gift.allow_partial %}Contribuir{% else %}Regalar por ${{ "%.0f"|format(gift.price) }} MXN{% endif %}
+          </button>
+          {% endif %}
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ── Gift modal ─────────────────────────────────────────────────────────── #}
+<div class="gift-modal-backdrop" id="giftModalBackdrop" aria-hidden="true">
+  <div class="gift-modal" role="dialog" aria-modal="true" aria-labelledby="giftModalTitle">
+    <button class="gift-modal-close" id="giftModalClose" aria-label="Cerrar">&times;</button>
+    <h2 class="gift-modal-title" id="giftModalTitle">Hacer un regalo</h2>
+
+    <form method="POST" id="giftModalForm" action="">
+      <div class="gift-modal-amount-row" id="amountRow" style="display:none">
+        <label for="giftAmount">Tu contribución (MXN)</label>
+        <div class="gift-modal-amount-hint" id="amountHint"></div>
+        <input type="number" id="giftAmount" name="amount"
+               min="50" step="50"
+               placeholder="Monto en pesos">
+      </div>
+
+      <div class="gift-modal-anon">
+        <label class="checkbox-label">
+          <input type="checkbox" name="show_name" id="showName" checked>
+          <span>Mostrar mi nombre públicamente</span>
+        </label>
+        <p class="gift-modal-anon-hint">Si no lo marcas, aparecerás como «Anónimo».</p>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" id="giftModalSubmit">
+        Continuar al pago
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  const backdrop   = document.getElementById('giftModalBackdrop');
+  const form       = document.getElementById('giftModalForm');
+  const amountRow  = document.getElementById('amountRow');
+  const amountInput= document.getElementById('giftAmount');
+  const amountHint = document.getElementById('amountHint');
+  const submitBtn  = document.getElementById('giftModalSubmit');
+  const closeBtn   = document.getElementById('giftModalClose');
+
+  document.querySelectorAll('.btn-gift-open').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const giftId    = btn.dataset.giftId;
+      const isPartial = btn.dataset.giftPartial === 'true';
+      const remaining = parseFloat(btn.dataset.giftRemaining);
+      const price     = parseFloat(btn.dataset.giftPrice);
+
+      form.action = `/gifts/${giftId}/checkout`;
+
+      if (isPartial) {
+        amountRow.style.display = 'flex';
+        amountInput.max = remaining;
+        amountInput.value = remaining;
+        amountHint.textContent = `Mínimo $50 — máximo $${remaining.toLocaleString('es-MX')} MXN restantes`;
+        submitBtn.textContent = 'Continuar al pago →';
+      } else {
+        amountRow.style.display = 'none';
+        submitBtn.textContent = `Regalar por $${price.toLocaleString('es-MX')} MXN →`;
+      }
+
+      backdrop.removeAttribute('aria-hidden');
+      backdrop.classList.add('is-open');
+    });
+  });
+
+  function closeModal() {
+    backdrop.setAttribute('aria-hidden', 'true');
+    backdrop.classList.remove('is-open');
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+</script>
+{% endblock %}
