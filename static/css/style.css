@@ -1623,6 +1623,17 @@ h1, h2, h3, h4 {
   flex: 1;
 }
 
+.gift-source-link {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: var(--brown-mid);
+  opacity: 0.7;
+  text-decoration: none;
+  margin-top: 0.25rem;
+  transition: opacity 0.2s;
+}
+.gift-source-link:hover { opacity: 1; text-decoration: underline; }
+
 .gift-price-row {
   display: flex;
   align-items: center;

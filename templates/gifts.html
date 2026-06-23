@@ -46,9 +46,12 @@
         {% endif %}
 
         <div class="gift-body">
-          <span class="gift-category">{{ gift.category }}</span>
+          <span class="gift-category">{{ gift.category }}{% if gift.city %} · {{ gift.city }}{% endif %}</span>
           <h3 class="gift-title">{{ gift.title }}</h3>
           <p class="gift-desc">{{ gift.description }}</p>
+          {% if gift.source_url %}
+          <a href="{{ gift.source_url }}" target="_blank" rel="noopener" class="gift-source-link">Ver referencia de precio ↗</a>
+          {% endif %}
 
           <div class="gift-price-row">
             <span class="gift-price">${{ "%.0f"|format(gift.price) }} MXN</span>
