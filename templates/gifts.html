@@ -1,179 +1,105 @@
 {% extends 'base.html' %}
-{% block title %}Lista de regalos{% endblock %}
+{% block title %}Regalos{% endblock %}
 
 {% block content %}
 <section class="page-hero">
   <div class="page-hero-content">
     <div class="page-ornament">✦</div>
-    <h1>Lista de regalos</h1>
-    <p>Su presencia es el mejor regalo que podemos recibir. Pero si desean acompañarnos de otra forma, hemos elegido experiencias de nuestra luna de miel que nos encantaría vivir juntos. Cada una representa un momento que llevaremos en el corazón para siempre. Y saber que ustedes fueron parte de hacerlo posible lo hace aún más especial.</p>
+    <h1>Regalos</h1>
   </div>
 </section>
 
 <section class="gifts-section">
-  <div class="gifts-inner">
+  <div class="gifts-inner gifts-redesign">
 
-    {% if cancelled %}
-    <div class="gifts-notice">El pago fue cancelado. Puedes intentarlo de nuevo cuando quieras.</div>
+    <div class="gifts-intro">
+      <p class="gifts-eyebrow">Un gesto desde el corazón</p>
+      <h2 class="gifts-title">El mejor regalo<br>es su presencia</h2>
+      <div class="gifts-ornament-row">
+        <span class="gifts-ornament-line"></span>
+        <span class="gifts-ornament-symbol">✦</span>
+        <span class="gifts-ornament-line"></span>
+      </div>
+    </div>
+
+    <div class="gifts-envelope-area">
+      <svg class="envelope-svg" viewBox="0 0 220 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Drop shadow -->
+        <rect x="10" y="14" width="200" height="126" rx="5" fill="rgba(20,30,22,0.07)"/>
+        <!-- Body -->
+        <rect x="6" y="8" width="200" height="126" rx="5" fill="#F4EEE0" stroke="#C0D4AA" stroke-width="1.5"/>
+        <!-- Left inner fold -->
+        <path d="M6 8 L110 80 L6 134" fill="#EAE1CF" stroke="#C0D4AA" stroke-width="1"/>
+        <!-- Right inner fold -->
+        <path d="M206 8 L110 80 L206 134" fill="#EAE1CF" stroke="#C0D4AA" stroke-width="1"/>
+        <!-- Bottom flap -->
+        <path d="M6 134 L110 80 L206 134 Z" fill="#E4D9C5" stroke="#C0D4AA" stroke-width="1"/>
+        <!-- Top flap -->
+        <path d="M6 8 L110 78 L206 8 Z" fill="#E8DECA" stroke="#C0D4AA" stroke-width="1.5"/>
+        <!-- Wax seal outer glow -->
+        <circle cx="110" cy="80" r="20" fill="rgba(61,110,72,0.12)"/>
+        <!-- Wax seal -->
+        <circle cx="110" cy="80" r="16" fill="#3D6E48"/>
+        <circle cx="110" cy="80" r="13.5" fill="none" stroke="rgba(244,238,224,0.35)" stroke-width="1"/>
+        <!-- Monogram inside seal -->
+        <text x="110" y="85" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" fill="#F4EEE0" letter-spacing="2">V·J</text>
+      </svg>
+    </div>
+
+    <div class="gifts-body">
+      <p>
+        Creemos que el regalo más valioso que existe es la alegría de compartir este día con
+        las personas que amamos. Su presencia, su abrazo y su alegría son más que suficientes
+        para hacer de esta celebración el momento más especial de nuestras vidas.
+      </p>
+      <p>
+        Para quienes deseen expresar su cariño con un obsequio adicional, hemos preparado
+        <strong>sobres especiales</strong> que estarán disponibles en la mesa de regalos durante
+        la celebración. Pueden depositar su aportación dentro del sobre y entregarlo
+        con todo el amor que lo acompaña.
+      </p>
+      <p>
+        Cada gesto, por pequeño o grande que sea, lo recibiremos con el corazón lleno
+        de gratitud. Gracias por ser parte de este capítulo tan hermoso de nuestra historia.
+      </p>
+    </div>
+
+    {% if wedding.gifts_message %}
+    <div class="gifts-db-note">
+      <span class="gifts-db-note-ornament">✦</span>
+      <p>{{ wedding.gifts_message }}</p>
+    </div>
     {% endif %}
 
-    <div class="gifts-grid">
-      {% for gift in gifts %}
-
-      {% set remaining = gift.price - gift.get('amount_funded', 0) %}
-      {% set progress_pct = [(gift.get('amount_funded', 0) / gift.price * 100), 100] | min | int %}
-
-      <div class="gift-card{% if gift.is_funded %} gift-funded{% endif %}">
-
-        {% if gift.is_funded %}
-        <div class="gift-funded-ribbon">
-          <span>Ya financiado</span>
+    {% if wedding.clabe_info and wedding.clabe_info.clabe %}
+    <div class="gifts-divider-line"></div>
+    <div class="gifts-clabe-section">
+      <p class="gifts-clabe-intro">
+        Para quienes prefieran hacer una transferencia bancaria, compartimos nuestros datos abajo.
+      </p>
+      <div class="gifts-clabe-box">
+        {% if wedding.clabe_info.name %}
+        <div class="gifts-clabe-field">
+          <span class="gifts-clabe-field-label">Titular</span>
+          <span class="gifts-clabe-field-value">{{ wedding.clabe_info.name }}</span>
         </div>
         {% endif %}
-
-        {% if gift.image_url %}
-        <div class="gift-image">
-          <img src="{{ gift.image_url }}" alt="{{ gift.title }}">
-        </div>
-        {% else %}
-        <div class="gift-image gift-image-placeholder" aria-hidden="true">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/>
-            <path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-          </svg>
+        {% if wedding.clabe_info.bank %}
+        <div class="gifts-clabe-field">
+          <span class="gifts-clabe-field-label">Banco</span>
+          <span class="gifts-clabe-field-value">{{ wedding.clabe_info.bank }}</span>
         </div>
         {% endif %}
-
-        <div class="gift-body">
-          <span class="gift-category">{{ gift.category }}{% if gift.city %} · {{ gift.city }}{% endif %}</span>
-          <h3 class="gift-title">{{ gift.title }}</h3>
-          <p class="gift-desc">{{ gift.description }}</p>
-          {% if gift.source_url %}
-          <a href="{{ gift.source_url }}" target="_blank" rel="noopener" class="gift-source-link">Ver referencia de precio ↗</a>
-          {% endif %}
-
-          <div class="gift-price-row">
-            <span class="gift-price">${{ "%.0f"|format(gift.price) }} MXN</span>
-            {% if gift.allow_partial and not gift.is_funded %}
-            <span class="gift-partial-badge">Contribución parcial</span>
-            {% endif %}
-          </div>
-
-          {% if gift.allow_partial and not gift.is_funded %}
-          <div class="gift-progress">
-            <div class="gift-progress-bar">
-              <div class="gift-progress-fill" style="width:{{ progress_pct }}%"></div>
-            </div>
-            <span class="gift-progress-label">
-              ${{ "%.0f"|format(gift.get('amount_funded', 0)) }} de ${{ "%.0f"|format(gift.price) }} MXN
-            </span>
-          </div>
-          {% endif %}
-
-          {% if gift.contributors %}
-          <p class="gift-contributors">
-            Contribuido por:
-            {% for c in gift.contributors %}
-            <span class="contributor-name">{{ c }}</span>{% if not loop.last %}, {% endif %}
-            {% endfor %}
-          </p>
-          {% endif %}
+        {% if wedding.clabe_info.clabe %}
+        <div class="gifts-clabe-field gifts-clabe-field-highlight">
+          <span class="gifts-clabe-field-label">CLABE</span>
+          <span class="gifts-clabe-field-value gifts-clabe-monospace">{{ wedding.clabe_info.clabe }}</span>
         </div>
-
-        <div class="gift-footer">
-          {% if gift.is_funded %}
-          <span class="gift-funded-label">✦ Gracias por este regalo ✦</span>
-          {% else %}
-          <button class="btn btn-primary btn-full btn-gift-open"
-                  data-gift-id="{{ gift.id }}"
-                  data-gift-partial="{{ 'true' if gift.allow_partial else 'false' }}"
-                  data-gift-remaining="{{ '%.0f'|format(remaining) }}"
-                  data-gift-price="{{ '%.0f'|format(gift.price) }}">
-            {% if gift.allow_partial %}Contribuir{% else %}Regalar por ${{ "%.0f"|format(gift.price) }} MXN{% endif %}
-          </button>
-          {% endif %}
-        </div>
+        {% endif %}
       </div>
-
-      {% endfor %}
     </div>
+    {% endif %}
+
   </div>
 </section>
-
-{# ── Gift modal ─────────────────────────────────────────────────────────── #}
-<div class="gift-modal-backdrop" id="giftModalBackdrop" aria-hidden="true">
-  <div class="gift-modal" role="dialog" aria-modal="true" aria-labelledby="giftModalTitle">
-    <button class="gift-modal-close" id="giftModalClose" aria-label="Cerrar">&times;</button>
-    <h2 class="gift-modal-title" id="giftModalTitle">Hacer un regalo</h2>
-
-    <form method="POST" id="giftModalForm" action="">
-      <div class="gift-modal-amount-row" id="amountRow" style="display:none">
-        <label for="giftAmount">Tu contribución (MXN)</label>
-        <div class="gift-modal-amount-hint" id="amountHint"></div>
-        <input type="number" id="giftAmount" name="amount"
-               min="50" step="50"
-               placeholder="Monto en pesos">
-      </div>
-
-      <div class="gift-modal-anon">
-        <label class="checkbox-label">
-          <input type="checkbox" name="show_name" id="showName" checked>
-          <span>Mostrar mi nombre públicamente</span>
-        </label>
-        <p class="gift-modal-anon-hint">Si no lo marcas, aparecerás como «Anónimo».</p>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-full" id="giftModalSubmit">
-        Continuar al pago
-      </button>
-    </form>
-  </div>
-</div>
-
-<script>
-(function () {
-  const backdrop   = document.getElementById('giftModalBackdrop');
-  const form       = document.getElementById('giftModalForm');
-  const amountRow  = document.getElementById('amountRow');
-  const amountInput= document.getElementById('giftAmount');
-  const amountHint = document.getElementById('amountHint');
-  const submitBtn  = document.getElementById('giftModalSubmit');
-  const closeBtn   = document.getElementById('giftModalClose');
-
-  document.querySelectorAll('.btn-gift-open').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const giftId    = btn.dataset.giftId;
-      const isPartial = btn.dataset.giftPartial === 'true';
-      const remaining = parseFloat(btn.dataset.giftRemaining);
-      const price     = parseFloat(btn.dataset.giftPrice);
-
-      form.action = `/gifts/${giftId}/checkout`;
-
-      if (isPartial) {
-        amountRow.style.display = 'flex';
-        amountInput.max = remaining;
-        amountInput.value = remaining;
-        amountHint.textContent = `Mínimo $50 — máximo $${remaining.toLocaleString('es-MX')} MXN restantes`;
-        submitBtn.textContent = 'Continuar al pago →';
-      } else {
-        amountRow.style.display = 'none';
-        submitBtn.textContent = `Regalar por $${price.toLocaleString('es-MX')} MXN →`;
-      }
-
-      backdrop.removeAttribute('aria-hidden');
-      backdrop.classList.add('is-open');
-    });
-  });
-
-  function closeModal() {
-    backdrop.setAttribute('aria-hidden', 'true');
-    backdrop.classList.remove('is-open');
-  }
-
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-})();
-</script>
 {% endblock %}

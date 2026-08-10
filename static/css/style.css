@@ -1,3 +1,12 @@
+/* ── Custom fonts ───────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'EnchantedTales';
+  src: url('../fonts/EnchantedTales.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── Variables ──────────────────────────────────────────────────────────── */
 :root {
   --ivory:      #F4EEE0;   /* warm parchment */
@@ -18,10 +27,10 @@
 
 /* ── Reset ──────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html  { scroll-behavior: smooth; font-size: 16px; }
+html  { scroll-behavior: smooth; font-size: 18px; }
 body  {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: 17px;
+  font-size: 19px;
   background: var(--ivory);
   color: var(--brown);
   line-height: 1.75;
@@ -36,7 +45,7 @@ img   { max-width: 100%; display: block; }
 
 /* ── Typography ─────────────────────────────────────────────────────────── */
 h1, h2, h3, h4 {
-  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  font-family: 'EnchantedTales', 'Cinzel', serif;
   font-weight: 400;
   line-height: 1.15;
 }
@@ -66,7 +75,7 @@ h1, h2, h3, h4 {
 }
 
 .nav-brand {
-  font-family: 'Cinzel', serif;
+  font-family: 'EnchantedTales', 'Cinzel', serif;
   font-size: 1.1rem;
   font-weight: 400;
   color: var(--brown);
@@ -207,7 +216,7 @@ h1, h2, h3, h4 {
 
 .hero-pre {
   font-family: 'Lato', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   letter-spacing: 0.42em;
   text-transform: uppercase;
   color: var(--gold);
@@ -216,8 +225,8 @@ h1, h2, h3, h4 {
 }
 
 .hero-names {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3.4rem, 8.5vw, 6.2rem);
+  font-family: 'EnchantedTales', 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 6.2vw, 5.2rem);
   font-weight: 300;
   color: var(--brown);
   letter-spacing: 0.04em;
@@ -225,7 +234,8 @@ h1, h2, h3, h4 {
   align-items: baseline;
   justify-content: center;
   gap: 0.5em;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .bride-name { color: var(--sun); }
@@ -247,7 +257,7 @@ h1, h2, h3, h4 {
   margin-bottom: 0;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 300;
 }
 
@@ -272,7 +282,7 @@ h1, h2, h3, h4 {
 
 .hero-date {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 300;
   color: var(--brown-mid);
   letter-spacing: 0.1em;
@@ -282,7 +292,7 @@ h1, h2, h3, h4 {
 
 .hero-location {
   font-family: 'Lato', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--brown-light);
@@ -347,6 +357,13 @@ h1, h2, h3, h4 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2.5rem;
+  justify-items: center;
+}
+
+.details-grid .detail-card:only-child {
+  grid-column: 1 / -1;
+  max-width: 420px;
+  width: 100%;
 }
 
 .detail-card {
@@ -360,25 +377,25 @@ h1, h2, h3, h4 {
 /* Ceremony = moon (groom); Reception = sun (bride) */
 .detail-card:nth-child(1) { border-top: 3px solid var(--moon); }
 .detail-card:nth-child(2) { border-top: 3px solid var(--sun);  }
-.detail-card:nth-child(1) .detail-time { color: var(--moon); }
+.detail-card:nth-child(1) .detail-time { color: var(--gold-dark); }
 .detail-card:nth-child(2) .detail-time { color: var(--sun);  }
 
 .detail-icon { color: var(--gold); margin-bottom: 1.25rem; }
 
 .detail-card h3 {
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   color: var(--brown);
   margin-bottom: 1rem;
   letter-spacing: 0.04em;
 }
 .detail-time {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   color: var(--gold);
   margin-bottom: 0.4rem;
 }
-.detail-venue { color: var(--brown); margin-bottom: 0.2rem; }
-.detail-address { font-size: 0.88rem; color: var(--brown-light); }
+.detail-venue { font-size: 1.1rem; color: var(--brown); margin-bottom: 0.2rem; }
+.detail-address { font-size: 1rem; color: var(--brown-light); }
 
 /* ── Countdown ───────────────────────────────────────────────────────────── */
 .countdown-section {
@@ -494,6 +511,189 @@ h1, h2, h3, h4 {
   gap: 1.75rem;
 }
 
+/* ── Gifts redesign (envelope page) ─────────────────────────────────────── */
+.gifts-redesign {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2.5rem;
+}
+
+.gifts-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gifts-eyebrow {
+  font-family: 'Lato', 'Helvetica Neue', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brown-light);
+}
+
+.gifts-title {
+  font-family: 'EnchantedTales', 'Cinzel', serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--brown);
+}
+
+.gifts-ornament-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 240px;
+}
+.gifts-ornament-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.gifts-ornament-symbol {
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+
+.gifts-envelope-area {
+  padding: 1rem 0;
+}
+.envelope-svg {
+  width: clamp(160px, 40vw, 260px);
+  height: auto;
+  filter: drop-shadow(0 6px 20px rgba(20, 30, 22, 0.1));
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+.envelope-svg:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  filter: drop-shadow(0 12px 28px rgba(20, 30, 22, 0.15));
+}
+
+.gifts-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  color: var(--brown-mid);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  max-width: 580px;
+}
+.gifts-body strong {
+  color: var(--brown);
+  font-weight: 600;
+}
+
+.gifts-db-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.75rem 2rem;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  max-width: 520px;
+  width: 100%;
+}
+.gifts-db-note-ornament {
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+.gifts-db-note p {
+  font-size: 0.97rem;
+  color: var(--brown-mid);
+  line-height: 1.75;
+  font-style: italic;
+}
+
+.gifts-divider-line {
+  width: 80px;
+  height: 1px;
+  background: var(--border);
+  margin: 2rem 0;
+}
+
+.gifts-clabe-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  max-width: 540px;
+  width: 100%;
+}
+
+.gifts-clabe-intro {
+  font-size: 1rem;
+  color: var(--brown-mid);
+  line-height: 1.8;
+  font-style: italic;
+  text-align: center;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.gifts-clabe-label {
+  font-family: 'Lato', 'Helvetica Neue', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--brown-light);
+  margin: 0;
+}
+
+.gifts-clabe-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.2rem 1.5rem;
+  background: rgba(232, 222, 202, 0.5);
+  border: 1px solid rgba(192, 212, 170, 0.6);
+  width: 100%;
+  max-width: 420px;
+}
+
+.gifts-clabe-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.gifts-clabe-field-highlight {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(192, 212, 170, 0.4);
+}
+
+.gifts-clabe-field-label {
+  font-family: 'Lato', 'Helvetica Neue', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brown-light);
+  font-weight: 400;
+}
+
+.gifts-clabe-field-value {
+  font-size: 0.95rem;
+  color: var(--brown-mid);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.gifts-clabe-monospace {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gold-dark);
+}
+
 .gift-card {
   background: var(--ivory);
   border: 1px solid var(--border);
@@ -545,6 +745,8 @@ h1, h2, h3, h4 {
   padding: 3rem 2.5rem;
   box-shadow: var(--shadow);
 }
+
+.auth-form { display: flex; flex-direction: column; gap: 1.75rem; }
 
 .auth-header { text-align: center; margin-bottom: 2.25rem; }
 .auth-ornament {
@@ -784,8 +986,13 @@ h1, h2, h3, h4 {
 /* ── Hero side photos ────────────────────────────────────────────────────── */
 .hero-photo {
   position: absolute;
-  width: clamp(130px, 13vw, 200px);
+  width: clamp(280px, 28vw, 420px);
   pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  z-index: 10;
 }
 
 .hero-photo img {
@@ -797,16 +1004,16 @@ h1, h2, h3, h4 {
 }
 
 .hero-photo-left {
-  left: max(1.5rem, 4vw);
-  top: 16%;
-  transform: rotate(-4.5deg);
+  left: 50%;
+  transform: translateX(calc(-100% - 25rem)) rotate(-4.5deg);
+  top: 25%;
 }
 
 .hero-photo-right {
-  right: max(1.5rem, 4vw);
-  top: 34%;
-  transform: rotate(3.5deg);
-  width: clamp(110px, 10vw, 165px);
+  right: 50%;
+  transform: translateX(calc(100% + 25rem)) rotate(3.5deg);
+  top: 35%;
+  width: clamp(260px, 26vw, 400px);
 }
 
 @media (max-width: 1060px) {
@@ -875,8 +1082,8 @@ h1, h2, h3, h4 {
 }
 
 .story-text h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.1rem, 4vw, 3.2rem);
+  font-family: 'EnchantedTales', 'Cormorant Garamond', serif;
+  font-size: clamp(2.3rem, 4.2vw, 3.4rem);
   font-weight: 300;
   font-style: italic;
   color: var(--brown);
@@ -886,7 +1093,7 @@ h1, h2, h3, h4 {
 
 .story-text p {
   color: var(--brown-mid);
-  font-size: 1.02rem;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
 }
 
@@ -918,7 +1125,7 @@ h1, h2, h3, h4 {
 }
 
 .dresscode-label {
-  font-family: 'Cinzel', serif;
+  font-family: 'EnchantedTales', 'Cinzel', serif;
   font-size: clamp(2.4rem, 5.5vw, 3.8rem);
   font-weight: 400;
   color: var(--ivory);
@@ -938,16 +1145,11 @@ h1, h2, h3, h4 {
   color: var(--brown-light);
   font-size: 1rem;
   line-height: 1.8;
-  margin-bottom: 2.75rem;
+  margin-bottom: 1.2rem;
 }
 
 .dresscode-palette {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 2.5rem;
+  display: none;
 }
 
 .swatch {
@@ -1493,7 +1695,7 @@ h1, h2, h3, h4 {
 .parallax-quote {
   position: relative;
   z-index: 1;
-  font-family: 'Cinzel', serif;
+  font-family: 'EnchantedTales', 'Cinzel', serif;
   font-size: clamp(1.6rem, 4vw, 2.6rem);
   font-weight: 400;
   letter-spacing: 0.14em;
@@ -1609,7 +1811,7 @@ h1, h2, h3, h4 {
 }
 
 .gift-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'EnchantedTales', 'Cinzel', serif;
   font-size: 1.05rem;
   font-weight: 400;
   color: var(--brown);
@@ -1753,7 +1955,7 @@ h1, h2, h3, h4 {
 .gift-modal-close:hover { color: var(--brown); }
 
 .gift-modal-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'EnchantedTales', 'Cinzel', serif;
   font-size: 1.3rem;
   font-weight: 400;
   color: var(--brown);

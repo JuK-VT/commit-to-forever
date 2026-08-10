@@ -31,7 +31,7 @@
       <span></span>
     </div>
     <p class="hero-date">{{ wedding.date }}</p>
-    <p class="hero-location">{{ wedding.ceremony.venue }}</p>
+    <p class="hero-location">{{ wedding.reception.venue }}</p>
     <div class="hero-actions">
       <a href="{{ url_for('rsvp.rsvp') }}" class="btn btn-primary">Confirmar asistencia</a>
       <a href="{{ url_for('gifts.gifts') }}" class="btn btn-secondary">Ver lista de regalos</a>
@@ -60,9 +60,10 @@
     </div>
     <div class="story-text">
       <p class="section-label">Nuestra historia</p>
-      <h2>Dos caminos,<br>una misma dirección</h2>
-      <p>Nos conocimos en el otoño de 2019 y desde entonces no hemos parado de recorrer el mundo juntos, de reírnos sin motivo y de construir, paso a paso, el hogar que siempre soñamos.</p>
-      <p>Ahora queremos celebrar el siguiente capítulo rodeados de las personas que más queremos. Queremos que este día sea tan especial para vosotros como lo es para nosotros.</p>
+      {% if wedding.story_heading %}<h2>{{ wedding.story_heading }}</h2>{% endif %}
+      {% for paragraph in wedding.story_paragraphs or [] %}
+      <p>{{ paragraph }}</p>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -80,18 +81,6 @@
   <div class="details-inner">
     <h2 class="section-title">Los detalles</h2>
     <div class="details-grid">
-      <div class="detail-card">
-        <div class="detail-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-            <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        </div>
-        <h3>Ceremonia</h3>
-        <p class="detail-time">{{ wedding.ceremony.time }}</p>
-        <p class="detail-venue">{{ wedding.ceremony.venue }}</p>
-        <p class="detail-address">{{ wedding.ceremony.address }}</p>
-      </div>
       <div class="detail-card">
         <div class="detail-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
@@ -210,8 +199,8 @@
 <section class="map-section">
   <div class="map-header">
     <p class="section-label">Ubicación</p>
-    <h2 class="section-title" style="margin-bottom:0.6rem">{{ wedding.ceremony.venue }}</h2>
-    <p class="map-address">{{ wedding.ceremony.address }}</p>
+    <h2 class="section-title" style="margin-bottom:0.6rem">{{ wedding.reception.venue }}</h2>
+    <p class="map-address">{{ wedding.reception.address }}</p>
   </div>
   <div class="map-embed">
     <iframe
@@ -249,7 +238,7 @@
 {# ── Muro de mensajes ─────────────────────────────────────────────────────── #}
 <section class="messages-section">
   <div class="messages-inner">
-    <h2 class="section-title">Vuestros mensajes</h2>
+    <h2 class="section-title">Mural de Mensajes</h2>
     <p class="section-subtitle">Las palabras que más nos llegan al corazón.</p>
 
     {% if session.guest_name %}
@@ -273,7 +262,7 @@
       </div>
       {% endfor %}
       {% if not messages %}
-      <p class="messages-empty">Aún no hay mensajes. ¡Sed los primeros en escribir uno!</p>
+      <p class="messages-empty">Aún no hay mensajes. ¡S&eacute; el primero en escribir uno!</p>
       {% endif %}
     </div>
   </div>
@@ -300,8 +289,8 @@
   <div class="thanks-inner">
     <div class="thanks-ornament">✦ ✦ ✦</div>
     <h2>Gracias por acompañarnos</h2>
-    <p>Vuestra presencia es el mejor regalo que podéis hacernos. Cada uno de vosotros forma parte de nuestra historia, y queremos que forméis parte también de este día tan especial.</p>
-    <p>Con mucha ilusión os esperamos. Por favor, confirmadnos vuestra asistencia antes del <strong>{{ wedding.rsvp_deadline }}</strong>.</p>
+    <p>Su presencia es el mejor regalo que pueden darnos. Cada uno de ustedes forma parte de nuestra historia, y queremos que formen parte también de este día tan especial.</p>
+    <p>Con mucha ilusión les esperamos. Por favor, confirmen su asistencia antes del <strong>{{ wedding.rsvp_deadline }}</strong>.</p>
     <p class="thanks-signature">
       Con todo nuestro amor,<br>
       <em>{{ wedding.names }}</em>
