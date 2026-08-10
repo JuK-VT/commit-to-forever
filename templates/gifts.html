@@ -90,10 +90,55 @@
           <span class="gifts-clabe-field-value">{{ wedding.clabe_info.bank }}</span>
         </div>
         {% endif %}
-        {% if wedding.clabe_info.clabe %}
-        <div class="gifts-clabe-field gifts-clabe-field-highlight">
-          <span class="gifts-clabe-field-label">CLABE</span>
-          <span class="gifts-clabe-field-value gifts-clabe-monospace">{{ wedding.clabe_info.clabe }}</span>
+
+        <div class="gift-body">
+          <span class="gift-category">{{ gift.category }}{% if gift.city %} · {{ gift.city }}{% endif %}</span>
+          <h3 class="gift-title">{{ gift.title }}</h3>
+          <p class="gift-desc">{{ gift.description }}</p>
+          {% if gift.source_url %}
+          <a href="{{ gift.source_url }}" target="_blank" rel="noopener" class="gift-source-link">Ver referencia de precio ↗</a>
+          {% endif %}
+
+          <div class="gift-price-row">
+            <span class="gift-price">${{ "%.0f"|format(gift.price) }} MXN</span>
+            {% if gift.allow_partial and not gift.is_funded %}
+            <span class="gift-partial-badge">Contribución parcial</span>
+            {% endif %}
+          </div>
+
+          {% if gift.allow_partial and not gift.is_funded %}
+          <div class="gift-progress">
+            <div class="gift-progress-bar">
+              <div class="gift-progress-fill" style="width:{{ progress_pct }}%"></div>
+            </div>
+            <span class="gift-progress-label">
+              ${{ "%.0f"|format(gift.get('amount_funded', 0)) }} de ${{ "%.0f"|format(gift.price) }} MXN
+            </span>
+          </div>
+          {% endif %}
+
+          {% if gift.contributors %}
+          <p class="gift-contributors">
+            Contribuido por:
+            {% for c in gift.contributors %}
+            <span class="contributor-name">{{ c }}</span>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          {% endif %}
+        </div>
+
+        <div class="gift-footer">
+          {% if gift.is_funded %}
+          <span class="gift-funded-label">✦ Gracias por este regalo ✦</span>
+          {% else %}
+          <button class="btn btn-primary btn-full btn-gift-open"
+                  data-gift-id="{{ gift.id }}"
+                  data-gift-partial="{{ 'true' if gift.allow_partial else 'false' }}"
+                  data-gift-remaining="{{ '%.0f'|format(remaining) }}"
+                  data-gift-price="{{ '%.0f'|format(gift.price) }}">
+            {% if gift.allow_partial %}Contribuir{% else %}Regalar por ${{ "%.0f"|format(gift.price) }} MXN{% endif %}
+          </button>
+          {% endif %}
         </div>
         {% endif %}
       </div>
