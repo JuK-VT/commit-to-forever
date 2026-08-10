@@ -162,7 +162,7 @@
             <path d="M3 10h18"/>
           </svg>
         </div>
-        <h3>Metro</h3>
+        <h3>{{ wedding.transport[0].title }}</h3>
         <p>{{ wedding.transport[0].desc | safe }}</p>
       </div>
 
@@ -175,7 +175,7 @@
             <path d="M10 17h4"/>
           </svg>
         </div>
-        <h3>En coche</h3>
+        <h3>{{ wedding.transport[1].title }}</h3>
         <p>{{ wedding.transport[1].desc | safe }}</p>
       </div>
 
@@ -187,7 +187,7 @@
             <circle cx="16.5" cy="16.5" r="2.5"/>
           </svg>
         </div>
-        <h3>Taxi / VTC</h3>
+        <h3>{{ wedding.transport[2].title }}</h3>
         <p>{{ wedding.transport[2].desc | safe }}</p>
       </div>
 
