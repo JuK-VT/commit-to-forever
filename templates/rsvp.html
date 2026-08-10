@@ -28,6 +28,12 @@
 
     {% else %}
 
+      {% if wedding.kids_policy %}
+      <div class="rsvp-notice">
+        {{ wedding.kids_policy }}
+      </div>
+      {% endif %}
+
       {% if existing %}
       <div class="rsvp-notice">
         Tienes una confirmación previa: actualmente has indicado que
