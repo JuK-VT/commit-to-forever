@@ -1195,6 +1195,11 @@ h1, h2, h3, h4 {
   color: var(--gold);
 }
 
+.kids-policy-note {
+  border: none;
+  font-weight: 700;
+}
+
 /* ── Transport Section ───────────────────────────────────────────────────── */
 .transport-section {
   padding: 6rem 2rem;
